@@ -47,14 +47,14 @@ body {
 
 #container-start {
   margin: 0 auto;
-  padding: 0 18vw;
+  padding: 0 25vw;
 }
 
 h1 {
-  font-size: 8vw;
+  font-size: 7vw;
   margin: 1.4vw auto;
   padding: 1vw 0;
-  letter-spacing: 1vw;
+  letter-spacing: 0.5vw;
   -webkit-box-shadow: inset 10px 7px 60px 7px rgba(0, 0, 0, 0.68);
   -moz-box-shadow: inset 10px 7px 60px 7px rgba(0, 0, 0, 0.68);
   box-shadow: inset 10px 7px 60px 7px rgba(0, 0, 0, 0.68);
@@ -62,8 +62,8 @@ h1 {
 }
 
 p {
-  font-size: 3.8vw;
-  margin: 2vw 0 0 0;
+  font-size: 3vw;
+  margin: 2vw 0 0 0.5vw;
   letter-spacing: 1vw;
 }
 
@@ -83,19 +83,20 @@ h3,
 ul > li {
   font-size: 1.8vw;
   font-weight: normal;
-  margin: 2vw 0;
-  letter-spacing: 1vw;
+  margin: 1.5vw 0;
+  letter-spacing: 0.5vw;
 }
 
 h3 {
   font-size: 1.5vw;
+  margin-left: 0.5vw;
 }
 
 ul > li {
   list-style: none;
   border-bottom: 1px solid white;
-  letter-spacing: 0.8vw;
-  line-height: 4vw;
+  letter-spacing: 0.5vw;
+  line-height: 3vw;
   -webkit-box-shadow: inset 10px 7px 47px 7px rgba(0, 0, 0, 0.68);
   -moz-box-shadow: inset 10px 7px 47px 7px rgba(0, 0, 0, 0.68);
   box-shadow: inset 10px 7px 47px 7px rgba(0, 0, 0, 0.68);
@@ -133,7 +134,7 @@ ul > li:hover {
 
 #select > li {
   margin: 1.5vw 0;
-  font-size: 1.5vw;
+  font-size: 1.4vw;
   letter-spacing: 0.5vw;
   -webkit-box-shadow: none;
   -moz-box-shadow: none;
@@ -209,10 +210,10 @@ ul > li:hover {
 
 #rulesPage {
   position: absolute;
-  width: 90%;
+  width: 70%;
   min-height: 90%;
   top: 5%;
-  left: 5%;
+  left: 15%;
   -webkit-box-shadow: 10px 7px 47px 7px rgba(0, 0, 0, 0.68);
   -moz-box-shadow: 10px 7px 47px 7px rgba(0, 0, 0, 0.68);
   box-shadow: 10px 7px 47px 7px rgba(0, 0, 0, 0.68);
