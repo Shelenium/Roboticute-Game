@@ -4,18 +4,13 @@
 var canvas;
 var context;
 var images = {};
-var soundEffBor, soundEffMuch, soundEffGirls, soundEffGirlsGoAway,soundEffRobo, soundEffWin, soundEffNoMoney;
-var volume = 0.2;
-var volumeWin = 0.3;
+var soundEffBor, soundEffMuch, soundEffGirls, soundEffGirlsGoAway,soundEffRobo, soundEffWin, soundEffNoMoney, soundEffNoFrog;
+var volume;
+var volumeWin;
 var k; // proportional koeff
-if (window.innerWidth / window.innerHeight < 1.22) {
-  k = 0.9 * window.innerWidth;
-} else {
-  k = window.innerHeight / 0.85;
-}
-var sizeX = k;
-var sizeY = sizeX * 0.56;
-var progressBarH = sizeX * 0.025;
+var sizeX// = k;
+var sizeY// = sizeX * 0.56;
+var progressBarH// = sizeX * 0.025;
 var totalResources = 26;
 var numResourcesLoaded = 0;
 var fps = 30;
@@ -38,7 +33,7 @@ var xBorovik, yBorovik, xMuchomor, yMuchomor;
 var xFrog, yFrog, xExp, yExp;
 var b = slow(5);
 var m = slow(7);
-var f = slow(15);
+var f = slow(12);
 var robo = slow(11);
 var takebor, takemuch, takefrog, finishlevel;
 var wGreen, wRed, wPrincess;
@@ -66,9 +61,10 @@ var curEyeHeight = maxEyeHeight;
 function varMission1() {
   numMission = 0;
   currentMission = varMission1;
+  volume = 0.2;
   volumeWin = 0.3;
   x = sizeX * 0.0926;
-  y = sizeX * 0.4938;
+  y = sizeX * 0.2938;
   dx = 0;
   dr = 0;
   dy = 0;
@@ -122,6 +118,7 @@ function varMission2() {
 
   numMission = 1;
   currentMission = varMission2;
+  volume = 0.2;
   volumeWin = 0.3;
   x = sizeX * 0.5;
   y = sizeX * 0.2;
@@ -177,6 +174,7 @@ function varMission2() {
 function varMission3() {
   numMission = 2;
   currentMission = varMission3;
+  volume = 0.2;
   volumeWin = 0.3;
   x = sizeX * 0.8;
   y = sizeX * 0.2;
@@ -226,7 +224,7 @@ function varMission3() {
   princessGreed = 1.5;
   roboGreed = 1;
   randomFrog = 2;
-  f = slow(20);
+  f = slow(12);
   jump = 0.008;
 }
 
@@ -267,6 +265,7 @@ soundEffGirlsGoAway = document.getElementById("soundEffGirlsGoAway");
 soundEffRobo = document.getElementById("soundEffRobo");
 soundEffWin = document.getElementById("soundEffWin");
 soundEffNoMoney = document.getElementById("soundEffNoMoney");
+soundEffNoFrog = document.getElementById("soundEffFrog");
 
 
 function closeRules() {
@@ -310,6 +309,7 @@ function showMissionAlw() {
 
 function chooseMission() {
   numMission = this.value;
+  setWidth();
   switch (numMission) {
     case 0:
       currentMission = varMission1;
@@ -361,6 +361,19 @@ function noSound(){
   }
 }
 
+function setWidth() {
+if (window.innerWidth / window.innerHeight < 1.22) {
+  k = 0.9 * window.innerWidth;
+} else {
+  k = window.innerHeight / 0.85;
+}
+sizeX = k;
+sizeY = sizeX * 0.56;
+progressBarH = sizeX * 0.025;
+maxEyeHeight = sizeX * 0.011;
+curEyeHeight = maxEyeHeight;
+}
+
 function chooseMissionFull() {
 
   document.getElementById('canvasDiv').innerHTML = '';
@@ -368,6 +381,7 @@ function chooseMissionFull() {
   document.getElementById('startPage').classList.remove('invisible');
   document.getElementById('gamePage').classList.add('invisible');
   blurr();
+  volume = 0;
   setTimeout(showMissionAlw(), 10);
 }
 
@@ -376,7 +390,10 @@ document.getElementById('start').addEventListener('click', startGame);
 function startGame() {
   document.getElementById('startPage').classList.add('invisible');
   document.getElementById('gamePage').classList.remove('invisible');
+  volume = 0.2;
+  
   contSize(sizeX + 8, sizeX * 0.82);
+
   prepareCanvas(document.getElementById('canvasDiv'), sizeX, sizeX * 0.67284);
 
 }
@@ -592,7 +609,7 @@ function redraw() {
           dyFrog += sizeX * random;
           rostF = (rostF + delta) % 768;
           if (rostF == 0) {
-            if (f() == 11) {
+            if (f() == 7) {
               delta = 64;
             } else {
               delta = 0;
@@ -682,9 +699,9 @@ function redraw() {
       }
 
       if (takebor) {
-        if (countdown == 0) {
           soundEffBor.volume = volume;
           soundEffBor.play();
+        if (countdown == 0) {
           takebor = false;
           countdown = 7;
           progressGreen++;
@@ -706,9 +723,9 @@ function redraw() {
       }
 
       if (takemuch) {
-        if (countdown == 0) {
           soundEffMuch.volume = volume;
           soundEffMuch.play();
+        if (countdown == 0) {
           takemuch = false;
           countdown = 7;
           progressRed++;
@@ -730,27 +747,30 @@ function redraw() {
         }
 
         if (takefrog) {
+          soundEffFrog.volume = volume;
+          soundEffFrog.play();
           frog = false;
           rostF = 0;
-          explosion = true;
+          explosion();
           takefrog = false;
         }
 
-        if (explosion) {
+        function explosion() {
           rostE += 128;
           if (rostE == 768) {
-            explosion = false;
             rostE = 0;
+          
+          }
             if (progressRed > 0) {
               soundEffGirls.volume = volume;
               soundEffGirls.play();
               princess = true;
               princessNum++;
-            } else {               
-              soundEffNoMoney.volume = volume;
-              soundEffNoMoney.play();
-            }
-          }
+            } //else {               
+             // soundEffNoMoney.volume = volume;
+             // soundEffNoMoney.play();
+           // }
+      
           context.drawImage(images["explosion"], rostE, 0, 128, 128, xExp, yExp, sizeX * 0.079, sizeX * 0.079);
         }
       } // end if frog
@@ -974,10 +994,10 @@ function keyDownHandler(e) {
 function keyUpHandler(e) {
   if (runningHor) {
     runningHor = false;
-    sign = 1;
+ //   sign = 1;
     setTimeout(function() {
-      shift = 0
-    }, 1000);
+      shift = 0;
+    }, 300); // eyes delay
   } else if (runningVert) {
     runningVert = false;
   }
